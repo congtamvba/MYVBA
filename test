@@ -1,0 +1,45 @@
+Public wsDAKK As New Worksheet, WsCCDC As New Worksheet
+Public n As Integer
+Sub TaofileKK()
+Dim mFile As String
+Dim mWb As Workbook, mWb1 As Workbook
+Dim mWs As Worksheet, mWs1 As Worksheet
+Dim mRL As Long, i As Long, j As Long, k As Long
+Set mWb = ActiveWorkbook
+Set mWs = mWb.Sheets("CCDC")
+mWs.Cells.ClearContents
+mFile = Main.txtFile.Value
+Set mWb1 = openxls(mFile)
+Set mWs1 = mWb1.ActiveSheet
+mRL = RowLast(mWs1, "A")
+k = 2
+For i = 10 To mRL
+If Not IsEmpty(mWs1.Range("H" & i)) Then
+For j = 1 To 9
+mWs.Cells(k, j) = mWs1.Cells(i, j)
+Next
+k = k + 1
+End If
+Next
+mWs.Range("H:H").NumberFormat = "dd/mm/yyyy"
+'MsgBox (mRL)
+mWb1.Close
+End Sub
+Sub loadWS()
+Dim mWb As Workbook, mWb1 As Workbook
+Set mWb = ActiveWorkbook
+Set wsDAKK = mWb.Sheets("DAKK")
+Set WsCCDC = mWb.Sheets("CCDC")
+wsDAKK.Range("A2").Value = "XXXX"
+End Sub
+Function ghiDAKK(mValue As String)
+n = n + 1
+scanQR.txtMaQR.Value = ""
+wsDAKK.Range("B2").Value = mValue
+If mValue = scanQR.TextBox1.Value Then
+scanQR.TextBox1.Value = "TRUNG MA"
+Else
+
+scanQR.TextBox1.Value = mValue
+End If
+End Function
